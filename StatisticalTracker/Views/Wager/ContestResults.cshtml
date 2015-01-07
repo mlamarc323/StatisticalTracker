@@ -1,0 +1,38 @@
+﻿@model IEnumerable<StatisticalTracker.Models.ContestModel>
+@{
+    ViewBag.Title = "Contest Results";
+}
+<h2>Contest Results</h2>
+<h2><b>Total Contests: @ViewBag.Contests</b></h2>
+<br />
+@if (Model != null)
+{
+
+    <table>
+        <tbody>
+
+            @foreach (var m in Model)
+            {
+                <tr>
+                    <td>@m.EntryId</td>
+                    <td>@m.Sport</td>
+                    <td>@m.Date</td>
+                    <td>@m.ContestTitle</td>
+                    <td>@m.SalaryCap</td>
+                    <td>@m.Score</td>
+                    <td>@m.Position</td>
+                    <td>@m.Entries</td>
+                    <td>@m.Opponent</td>
+                    <td>@m.EntryFee</td>
+                    <td>@m.Winnings</td>
+                    <td>@m.Link</td>
+
+                </tr>
+            }
+
+
+        </tbody>
+    </table>
+}
+
+

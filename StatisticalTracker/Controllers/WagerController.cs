@@ -27,32 +27,34 @@ namespace StatisticalTracker.Controllers
         {
             return View();
         }
-        
+
         [AcceptVerbs(HttpVerbs.Post)]
-        public ActionResult Upload(List<HttpPostedFileBase> uploadFiles)
+        public ActionResult ContestResults()
         {
             try
             {
+                var files = Request.Files;
                 var contestMaster = new List<ContestModel>();
-                
-                foreach (var file in uploadFiles)
+
+                for (int i = 0; i < files.Count; i++)
                 {
-                    if (file == null) break;
-                    if (file.ContentLength <= 0) continue;
+                    if (files[i] == null) break;
+                    if (files[i].ContentLength <= 0) continue;
                     string filePath = Path.Combine(HttpContext.Server.MapPath("../Uploads"),
-                        Path.GetFileName(file.FileName));
-                    file.SaveAs(filePath);
+                        Path.GetFileName(files[i].FileName));
+                    
+                    files[i].SaveAs(filePath);
 
                     var contests = ConvertExcelToDataSet(filePath);
-                    
+
                     // Foreach loop all contests in file to add to master collection
                     contestMaster.AddRange(contests);
 
                     ViewBag.Contests = contestMaster.Count();
-                    
+
                 }
 
-                return View("Upload", contestMaster);
+                return View("ContestResults", contestMaster);
             }
             catch (Exception ex)
             {
@@ -60,7 +62,7 @@ namespace StatisticalTracker.Controllers
                 return View("Upload");
             }
         }
-
+        
         private List<ContestModel> ConvertExcelToDataSet(string fileName)
         {
             DataSet data;

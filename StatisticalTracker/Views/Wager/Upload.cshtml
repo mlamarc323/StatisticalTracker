@@ -6,47 +6,10 @@
 <h2>Upload</h2>
 
 <div>
-    @using (Html.BeginForm("Upload", "Wager", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    @using (Html.BeginForm("ContestResults", "Wager", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
-        <input name="uploadFiles[0]"  id="uploadFile" type="file"  />
-        <br />
-        <input name="uploadFiles[1]" id="uploadFile" type="file"  />
-        <br />
-        <input name="uploadFiles[2]" id="uploadFile" type="file" />
+        <input name="uploadFiles[]" id="uploadFile" type="file" multiple />
         <br />
         <input type="submit" id="upload" value="Upload File(s)" title="Upload file" onclick=" return checkfilename(); " />
     }
 </div>
-<br/>
-<h2><b>Total Contests: @ViewBag.Contests</b></h2>
-<br/>
-@if (Model != null)
-{
-    
-    <table >
-        <tbody>
-
-            @foreach (var m in Model)
-            {
-                <tr>
-                    <td>@m.EntryId</td>
-                    <td>@m.Sport</td>
-                    <td>@m.Date</td>
-                    <td>@m.ContestTitle</td>
-                    <td>@m.SalaryCap</td>
-                    <td>@m.Score</td>
-                    <td>@m.Position</td>
-                    <td>@m.Entries</td>
-                    <td>@m.Opponent</td>
-                    <td>@m.EntryFee</td>
-                    <td>@m.Winnings</td>
-                    <td>@m.Link</td>
-
-                </tr>
-            }
-
-
-        </tbody>
-    </table>
-}
-
