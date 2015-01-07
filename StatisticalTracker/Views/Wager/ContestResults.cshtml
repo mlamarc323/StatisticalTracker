@@ -8,23 +8,39 @@
 @if (Model != null)
 {
 
-    <table>
+    <table style="border: black">
+        <thead>
+            <tr>
+                <td>EntryId</td>
+                <td>Sport</td>
+                <td>Date</td>
+                <td>ContestTitle</td>
+                <td>SalaryCap</td>
+                <td>Score</td>
+                <td>Position</td>
+                <td>Entries</td>
+                <td>Opponent</td>
+                <td>EntryFee</td>
+                <td>Winnings</td>
+                <td>Link</td>
+            </tr>
+        </thead>
         <tbody>
 
             @foreach (var m in Model)
             {
                 <tr>
                     <td>@m.EntryId</td>
-                    <td>@m.Sport</td>
-                    <td>@m.Date</td>
+                    <td>@m.Sport.ToUpper()</td>
+                    <td>@m.Date.Date.ToShortDateString()</td>
                     <td>@m.ContestTitle</td>
                     <td>@m.SalaryCap</td>
                     <td>@m.Score</td>
                     <td>@m.Position</td>
                     <td>@m.Entries</td>
                     <td>@m.Opponent</td>
-                    <td>@m.EntryFee</td>
-                    <td>@m.Winnings</td>
+                    <td>@string.Format("{0}",m.EntryFee)</td>
+                    <td>@string.Format("{0}",m.Winnings)</td>
                     <td>@m.Link</td>
 
                 </tr>
