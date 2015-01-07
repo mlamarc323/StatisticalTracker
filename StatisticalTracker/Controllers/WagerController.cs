@@ -27,33 +27,7 @@ namespace StatisticalTracker.Controllers
         {
             return View();
         }
-
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult Upload(HttpPostedFileBase uploadFile)
-        //{
-        //    try
-        //    {
-        //        if (uploadFile.ContentLength > 0)
-        //        {
-        //            string filePath = Path.Combine(HttpContext.Server.MapPath("../Uploads"),
-        //                Path.GetFileName(uploadFile.FileName));
-        //            uploadFile.SaveAs(filePath);
-
-        //            var contests = ConvertExcelToDataSet(filePath);
-
-        //            ViewBag.Contests = contests.Count();
-
-        //            //return View(modelList);
-        //            return View(contests);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    return View();
-        //}
-
+        
         [AcceptVerbs(HttpVerbs.Post)]
         public ActionResult Upload(List<HttpPostedFileBase> uploadFiles)
         {
@@ -87,37 +61,6 @@ namespace StatisticalTracker.Controllers
             }
         }
 
-        //[AcceptVerbs(HttpVerbs.Post)]
-        //public ActionResult UploadMultiple(List<HttpPostedFileBase> uploadFiles)
-        //{
-        //    try
-        //    {
-        //        foreach (var file in uploadFiles)
-        //        {
-
-        //            if (file.ContentLength > 0)
-        //            {
-        //                string filePath = Path.Combine(HttpContext.Server.MapPath("../Uploads"),
-        //                    Path.GetFileName(file.FileName));
-        //                file.SaveAs(filePath);
-
-        //                var contests = ConvertExcelToDataSet(file.FileName);
-
-        //                ViewBag.Contests = contests.Count();
-
-        //                //return View(modelList);
-        //                return View("Upload",contests);
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-        //    return View("Upload");
-        //}
-
-
         private List<ContestModel> ConvertExcelToDataSet(string fileName)
         {
             DataSet data;
@@ -148,7 +91,7 @@ namespace StatisticalTracker.Controllers
             }
             catch
             {
-                ViewBag.ErrorMessage = "You have some invalid up data in your dataset!";
+                ViewBag.ErrorMessage = "You have some invalid data in your dataset!";
                 return new List<ContestModel>();
             }
             return contestCollection;
