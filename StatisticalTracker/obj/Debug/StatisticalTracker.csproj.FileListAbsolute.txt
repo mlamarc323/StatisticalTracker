@@ -104,3 +104,5 @@ C:\Projects_Git\StatisitcalTracker\StatisticalTracker\bin\DotNetOpenAuth.OpenId.
 C:\Projects_Git\StatisitcalTracker\StatisticalTracker\obj\Debug\StatisticalTracker.csprojResolveAssemblyReference.cache
 C:\Projects_Git\StatisitcalTracker\StatisticalTracker\obj\Debug\StatisticalTracker.dll
 C:\Projects_Git\StatisitcalTracker\StatisticalTracker\obj\Debug\StatisticalTracker.pdb
+C:\Projects_Git\StatisitcalTracker\StatisticalTracker\bin\GridMvc.dll
+C:\Projects_Git\StatisitcalTracker\StatisticalTracker\bin\WebGridMvc.dll

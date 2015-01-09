@@ -1,54 +1,196 @@
-﻿@model IEnumerable<StatisticalTracker.Models.ContestModel>
+﻿@using GridMvc
+@using GridMvc.Html
+@using GridMvc.Sorting
+@using StatisticalTracker.Models
+@using WebGridMvc
+@model IEnumerable<ContestModel>
 @{
     ViewBag.Title = "Contest Results";
 }
+
+<style type="text/css">
+    .webGrid {
+        margin: 4px;
+        border-collapse: collapse;
+        width: 500px;
+        background-color: #B4CFC3;
+    }
+
+    .header {
+        background-color: #C1D4E6;
+        font-weight: bold;
+        color: #FFF;
+    }
+
+    .webGrid th, .webGrid td {
+        border: 1px solid #C0C0C0;
+        padding: 5px;
+    }
+
+    .alt {
+        background-color: #E4E9F5;
+        color: #000;
+    }
+
+    .gridHead a:hover {
+        text-decoration: underline;
+    }
+
+    .description {
+        width: auto;
+    }
+
+    .select {
+        background-color: #71857C;
+    }
+</style>
 <h2>Contest Results</h2>
+<br />
+@Html.ActionLink("Return to Upload File Selection", "Upload")
+<br />
 <h2><b>Total Contests: @ViewBag.Contests</b></h2>
 <br />
-@if (Model != null)
-{
+@{
+        var grid = new WebGrid(Model, new[]
+        {
+            "EntryId",
+            "ContestTitle",
+            "Date",
+            "SalaryCap",
+            "Score",
+            "Position",
+            "Entries",
+            "EntryFee",
+            "Winnings",
+            "Opponent"
 
-    <table style="border: black">
-        <thead>
-            <tr>
-                <td>EntryId</td>
-                <td>Sport</td>
-                <td>Date</td>
-                <td>ContestTitle</td>
-                <td>SalaryCap</td>
-                <td>Score</td>
-                <td>Position</td>
-                <td>Entries</td>
-                <td>Opponent</td>
-                <td>EntryFee</td>
-                <td>Winnings</td>
-                <td>Link</td>
-            </tr>
-        </thead>
-        <tbody>
-
-            @foreach (var m in Model)
-            {
-                <tr>
-                    <td>@m.EntryId</td>
-                    <td>@m.Sport.ToUpper()</td>
-                    <td>@m.Date.Date.ToShortDateString()</td>
-                    <td>@m.ContestTitle</td>
-                    <td>@m.SalaryCap</td>
-                    <td>@m.Score</td>
-                    <td>@m.Position</td>
-                    <td>@m.Entries</td>
-                    <td>@m.Opponent</td>
-                    <td>@string.Format("{0}",m.EntryFee)</td>
-                    <td>@string.Format("{0}",m.Winnings)</td>
-                    <td>@m.Link</td>
-
-                </tr>
-            }
-
-
-        </tbody>
-    </table>
+        }, defaultSort:"Date", ajaxUpdateContainerId: "grid");
+        //grid.Bind(Model);
 }
+<div id="grid">
+    
+    @grid.GetHtml(
+    columns: grid.Columns(
+        grid.Column("EntryId", "Entry Id", null, null, true),
+        grid.Column("ContestTitle", "Contest Title", null, null, true),
+        grid.Column("Date", "Date", null, null, true),
+        grid.Column("SalaryCap", "Salary Cap", null, null, true),
+        grid.Column("Score", "Score", null, null, true),
+        grid.Column("Position", "Position", null, null, true),
+        grid.Column("Entries", "Entries", null, null, true),
+        grid.Column("EntryFee", "Entry Fee", null, null, true),
+        grid.Column("Winnings", "Winnings", null, null, true),
+        grid.Column("Opponent", "Opponent", null, null, true)
+    ))
+</div>
+
+@*@Html.Grid(Model).Columns(columns =>
+    {
+        /* Adding not mapped column, that renders body, using inline Razor html helper
+        @*columns.Add()
+                .Encoded(false)
+                .Sanitized(false)
+                .SetWidth(30)
+                .RenderValueAs(d =>
+                    @<b>
+                        @Html.ActionLink("Edit", "Index")
+                    </b>);
+    */
+        // Adding "EntryID" column:
+        columns.Add(o => o.EntryId)
+                .Titled("EntryId")
+                .SetWidth(100);
+
+        // Adding "CompanyName" column:
+        columns.Add(o => o.ContestTitle)
+                .Titled("Contest Title")
+                .SetWidth(200)
+                //.ThenSortByDescending(o => o.OrderID)
+                .SetFilterWidgetType("CustomCompanyNameFilterWidget");
+
+        // Adding "Date" column:
+        columns.Add(o => o.Date, "Date")
+                .Titled("Date")
+                .SortInitialDirection(GridSortDirection.Descending)
+                .Format("{0:MM/dd/yyyy}")
+                .SetWidth(110);
+
+        // Adding "Salary Cap" column:
+        columns.Add(o => o.SalaryCap)
+            .Titled("Salary Cap")
+            .SetWidth(50);
+                //.RenderValueAs(o => CustomRenderingOfColumn(o));
+
+        // Adding "Score" column:
+        columns.Add(o => o.Score)
+                .Titled("Score")
+                .SetWidth(50);
+
+        // Adding "Position" column:
+        columns.Add(o => o.Position)
+                .Titled("Position")
+                .SetWidth(50);
+
+        // Adding "Entries" column:
+        columns.Add(o => o.Entries)
+                .Titled("Entries")
+                .SetWidth(50);
+
+        // Adding "Opponent" column:
+        columns.Add(o => o.Opponent)
+                .Titled("Opponent")
+                .SetWidth(150);
+
+
+    })).WithPaging(15)
+    .Sortable()
+    .Filterable()
+    .WithMultipleFilters()*@
+
+@*@if (Model != null)
+    {
+
+        <table style="border: black">
+            <thead>
+                <tr>
+                    <td>EntryId</td>
+                    <td>Sport</td>
+                    <td>Date</td>
+                    <td>ContestTitle</td>
+                    <td>SalaryCap</td>
+                    <td>Score</td>
+                    <td>Position</td>
+                    <td>Entries</td>
+                    <td>Opponent</td>
+                    <td>EntryFee</td>
+                    <td>Winnings</td>
+                    <td>Link</td>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var m in Model)
+                {
+                    <tr>
+                        <td>@m.EntryId</td>
+                        <td>@m.Sport.ToUpper()</td>
+                        <td>@m.Date.Date.ToShortDateString()</td>
+                        <td>@m.ContestTitle</td>
+                        <td>@m.SalaryCap</td>
+                        <td>@m.Score</td>
+                        <td>@m.Position</td>
+                        <td>@m.Entries</td>
+                        <td>@m.Opponent</td>
+                        <td>@string.Format("{0}",m.EntryFee)</td>
+                        <td>@string.Format("{0}",m.Winnings)</td>
+                        <td>@m.Link</td>
+
+                    </tr>
+                }
+
+
+            </tbody>
+        </table>
+    }*@
 
 

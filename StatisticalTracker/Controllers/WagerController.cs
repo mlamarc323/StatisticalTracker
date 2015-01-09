@@ -6,6 +6,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.ClientServices.Providers;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using Excel;
 using StatisticalTracker.Models;
@@ -25,7 +27,90 @@ namespace StatisticalTracker.Controllers
 
         public ActionResult Upload()
         {
+            Session["Contests"] = string.Empty;
             return View();
+        }
+
+        public ActionResult ContestResults(string sort, string sortdir)
+        {
+            //Session["Contests"] = string.Empty;
+            var contestMaster = new List<ContestModel>();
+            contestMaster = (List<ContestModel>)Session["Contests"];
+
+            if (!string.IsNullOrEmpty(sort))
+            {
+                switch (sort)
+                {
+                    case "EntryId":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.EntryId).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.EntryId).ToList();
+                        }
+                        break;
+
+                    case "ContestTitle":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.ContestTitle).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.ContestTitle).ToList();
+                        }
+                        break;
+
+                    case "Date":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.Date).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.Date).ToList();
+                        }
+                        break;
+
+                    case "Score":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.Score).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.Score).ToList();
+                        }
+                        break;
+
+                    case "Winnings":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.Winnings).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.Winnings).ToList();
+                        }
+                        break;
+
+                    case "EntryFee":
+                        if (sortdir == "ASC")
+                        {
+                            contestMaster = contestMaster.OrderBy(x => x.EntryFee).ToList();
+                        }
+                        else if (sortdir == "DESC")
+                        {
+                            contestMaster = contestMaster.OrderByDescending(x => x.EntryFee).ToList();
+                        }
+                        break;
+                }
+
+            }
+
+            return View(contestMaster);
         }
 
         [AcceptVerbs(HttpVerbs.Post)]
@@ -33,6 +118,9 @@ namespace StatisticalTracker.Controllers
         {
             try
             {
+                //Clears "Contests" session
+                Session["Contests"] = string.Empty;
+                
                 var files = Request.Files;
                 var contestMaster = new List<ContestModel>();
 
@@ -50,9 +138,14 @@ namespace StatisticalTracker.Controllers
                     // Foreach loop all contests in file to add to master collection
                     contestMaster.AddRange(contests);
 
+                    // Sets session to "Contest" collection
+                    Session["Contests"] = contestMaster;
+
                     ViewBag.Contests = contestMaster.Count();
 
                 }
+
+                
 
                 return View("ContestResults", contestMaster);
             }

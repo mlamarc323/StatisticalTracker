@@ -18,6 +18,10 @@ namespace StatisticalTracker
                         "~/Scripts/jquery.unobtrusive*",
                         "~/Scripts/jquery.validate*"));
 
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+                        "~/Scripts/bootstrap.js",
+                        "~/Scripts/bootstrap.min.js"));
+
             bundles.Add(new ScriptBundle("~/bundles/register").Include(
                         "~/Scripts/register.js"));
 
